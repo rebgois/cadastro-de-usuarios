@@ -1,26 +1,35 @@
 <template>
-  <!-- Container principal com margem automática e padding -->
-  <div class="container mx-auto p-4">
-    <!-- Título da página -->
-    <h1 class="text-2xl font-bold mb-4">Adicionar Usuário</h1>
-    <!-- Componente de formulário de usuário, escuta o evento 'submit' -->
-    <userForm @submit="handleSubmit" />
+  <!-- Contêiner principal que ocupa a tela inteira e centraliza o conteúdo -->
+  <div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 to-blue-500 p-6"
+  >
+    <!-- Caixa branca com padding, sombra e bordas arredondadas -->
+    <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+      <!-- Título da página, estilizado e centralizado -->
+      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">
+        Adicionar Usuário
+      </h1>
+      <!-- Componente de formulário reutilizável, escuta o evento 'submit' -->
+      <userForm @submit="handleSubmit" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import userForm from "~/components/userForm.vue"; // Importa o componente de formulário de usuário
-import { useUserStore } from "~/stores/userStore"; // Importa a store de usuários do Pinia
-import { useRouter } from "vue-router"; // Importa o roteador para navegação
+import userForm from "~/components/userForm.vue"; // Importa o componente de formulário
+import { useUserStore } from "~/stores/userStore"; // Importa a store Pinia para gerenciamento de estado
+import { useRouter } from "vue-router"; // Importa o roteador Vue para navegação programática
 
-// Instancia a store de usuários para acessar as ações e o estado
+// Instancia a store de usuários
 const userStore = useUserStore();
-// Instancia o roteador para navegação programática
+// Instancia o roteador para redirecionamento
 const router = useRouter();
 
-// Função para lidar com a submissão do formulário
+// Função chamada ao submeter o formulário
 const handleSubmit = async (user) => {
-  await userStore.addUser(user); // Chama a ação 'addUser' da store para adicionar o novo usuário
-  router.push("/"); // Redireciona para a página inicial após adicionar o usuário
+  // Adiciona o novo usuário à store
+  await userStore.addUser(user);
+  // Redireciona para a página inicial após adicionar o usuário
+  router.push("/");
 };
 </script>
