@@ -1,7 +1,10 @@
 export default defineNuxtConfig({
-  // ...outras configurações
   css: ["@/assets/css/tailwind.css"],
+
+  // Registra apenas o MirageJS como plugin adicional
   plugins: ["~/plugins/mirage.ts"],
 
-  compatibilityDate: "2024-10-16"
+  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", ],
+
+  compatibilityDate: "2024-10-16",
 });
