@@ -1,72 +1,72 @@
-import { createServer, Model } from 'miragejs'; // Importa o MirageJS
+import { createServer, Model } from 'miragejs'; // Importa o MirageJS para simular uma API
 
-// Verifica se estamos no navegador antes de acessar o localStorage
+// Verifica se o código está sendo executado no navegador
 const isBrowser = typeof window !== 'undefined';
 
-// Função para carregar os usuários do localStorage
+// Função para carregar usuários armazenados no localStorage
 const loadUsersFromStorage = () => {
   if (isBrowser) {
-    const storedUsers = localStorage.getItem('users');
-    return storedUsers ? JSON.parse(storedUsers) : [];
+    const storedUsers = localStorage.getItem('users'); // Recupera dados do localStorage
+    return storedUsers ? JSON.parse(storedUsers) : []; // Converte de JSON para objeto, ou retorna um array vazio
   }
   return [];
 };
 
-// Função para salvar os usuários no localStorage
+// Função para salvar usuários no localStorage
 const saveUsersToStorage = (users) => {
   if (isBrowser) {
-    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('users', JSON.stringify(users)); // Converte o array de usuários em JSON e salva
   }
 };
 
-// Configuração do servidor MirageJS
+// Configura o servidor MirageJS para simular uma API mock
 export default function () {
   createServer({
     models: {
-      user: Model, // Define o modelo de usuário
+      user: Model, // Define o modelo de dados para 'user'
     },
 
+    // Seed: Inicializa o servidor com dados existentes do localStorage
     seeds(server) {
-      // Carrega os usuários do localStorage na inicialização
-      const users = loadUsersFromStorage();
-      users.forEach((user) => server.create('user', user));
+      const users = loadUsersFromStorage(); // Carrega usuários armazenados
+      users.forEach((user) => server.create('user', user)); // Cria instâncias no servidor Mirage
     },
 
     routes() {
-      // Permitir que rotas internas do Nuxt passem sem serem interceptadas
+      // Permitir que certas rotas do Nuxt passem sem serem interceptadas pelo MirageJS
       this.passthrough('/_nuxt/**');
       this.passthrough('/__webpack_hmr/**');
       this.passthrough('/_nuxt/builds/**');
       this.passthrough('/_nuxt/builds/meta/**');
 
-      // Define o namespace para as rotas da API
+      // Define o namespace das rotas da API
       this.namespace = 'api';
 
-      // Rota para buscar todos os usuários
+      // Define a rota para listar todos os usuários
       this.get('/users', (schema) => schema.all('user'));
 
-      // Rota para adicionar um novo usuário
+      // Define a rota para adicionar um novo usuário
       this.post('/users', (schema, request) => {
-        const attrs = JSON.parse(request.requestBody);
-        const user = schema.create('user', attrs);
-        saveUsersToStorage(schema.all('user').models);
+        const attrs = JSON.parse(request.requestBody); // Extrai os dados do corpo da requisição
+        const user = schema.create('user', attrs); // Cria um novo usuário no servidor mock
+        saveUsersToStorage(schema.all('user').models); // Salva os usuários no localStorage
         return user;
       });
 
-      // Rota para atualizar um usuário
+      // Define a rota para atualizar um usuário existente
       this.put('/users/:id', (schema, request) => {
-        const newAttrs = JSON.parse(request.requestBody);
-        const user = schema.find('user', request.params.id);
-        user.update(newAttrs);
-        saveUsersToStorage(schema.all('user').models);
+        const newAttrs = JSON.parse(request.requestBody); // Extrai os dados atualizados
+        const user = schema.find('user', request.params.id); // Encontra o usuário pelo ID
+        user.update(newAttrs); // Atualiza o usuário no servidor mock
+        saveUsersToStorage(schema.all('user').models); // Salva os usuários atualizados no localStorage
         return user;
       });
 
-      // Rota para deletar um usuário
+      // Define a rota para deletar um usuário
       this.del('/users/:id', (schema, request) => {
-        const user = schema.find('user', request.params.id);
-        user.destroy();
-        saveUsersToStorage(schema.all('user').models);
+        const user = schema.find('user', request.params.id); // Encontra o usuário pelo ID
+        user.destroy(); // Deleta o usuário do servidor mock
+        saveUsersToStorage(schema.all('user').models); // Atualiza o localStorage após a exclusão
       });
     },
   });
