@@ -1,4 +1,19 @@
+// tsconfig.json
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "./.nuxt/tsconfig.json", // Estende as configurações do Nuxt
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "baseUrl": ".", // Define a raiz do projeto
+    "paths": {
+      "~/*": ["./*"], // Configura o alias '~' para a raiz do projeto
+      "@/*": ["./*"] // Garante que o alias '@' aponte corretamente para o diretório raiz
+    },
+    "strict": true, // Habilita verificações estritas de TypeScript
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["**/*.ts", "**/*.vue"], // Garante que os arquivos TypeScript e Vue sejam considerados
+  "exclude": ["node_modules"] // Exclui os módulos do Node
 }

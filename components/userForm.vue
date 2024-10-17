@@ -43,57 +43,62 @@
     </div>
 
     <!-- Botão de Salvar -->
-    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg">
+    <button
+      type="submit"
+      class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg"
+    >
       Salvar
     </button>
   </Form>
 </template>
 
 <script setup lang="ts">
-import { Form, Field, ErrorMessage } from 'vee-validate'; // Importa os componentes do VeeValidate
-import { object, string } from 'yup'; // Importa Yup para validação
-import { reactive } from 'vue'; // Reactive para estado local
-import { defineEmits, defineProps } from 'vue'; // Para props e eventos
+import { Form, Field, ErrorMessage } from "vee-validate"; // Importa os componentes do VeeValidate
+import { object, string } from "yup"; // Importa Yup para validação
+import { reactive } from "vue"; // Reactive para estado local
+import { defineEmits, defineProps } from "vue"; // Para props e eventos
 
 // Props recebidas do componente pai
 const props = defineProps({
   user: {
     type: Object,
-    default: () => ({ name: '', email: '', password: '' }), // Garante um estado inicial vazio
+    default: () => ({ name: "", email: "", password: "" }), // Garante um estado inicial vazio
   },
 });
 
 // Evento de submit para enviar os dados ao componente pai
-const emit = defineEmits(['submit']);
+const emit = defineEmits(["submit"]);
 
 // Esquema de validação com Yup
 const schema = object({
-  name: string().required('O nome é obrigatório'),
-  email: string().email('E-mail inválido').required('O e-mail é obrigatório'),
-  password: string().min(6, 'A senha deve ter no mínimo 6 caracteres').required('A senha é obrigatória'),
+  name: string().required("O nome é obrigatório"),
+  email: string().email("E-mail inválido").required("O e-mail é obrigatório"),
+  password: string()
+    .min(6, "A senha deve ter no mínimo 6 caracteres")
+    .required("A senha é obrigatória"),
 });
 
 // Estado reativo para armazenar os dados do formulário
 const formData = reactive({
-  name: props.user.name || '',
-  email: props.user.email || '',
-  password: props.user.password || '',
+  name: props.user.name || "",
+  email: props.user.email || "",
+  password: props.user.password || "",
 });
 
 // Observa mudanças nas props e atualiza o estado local
 watch(
   () => props.user,
   (newUser) => {
-    formData.name = newUser.name || '';
-    formData.email = newUser.email || '';
-    formData.password = newUser.password || '';
+    formData.name = newUser.name || "";
+    formData.email = newUser.email || "";
+    formData.password = newUser.password || "";
   },
   { immediate: true }
 );
 
 // Função chamada ao enviar o formulário
 const onSubmit = (values) => {
-  console.log('Dados enviados:', values); // Verificação no console
-  emit('submit', values); // Emite os valores para o componente pai
+  console.log("Dados enviados:", values); // Verificação no console
+  emit("submit", values); // Emite os valores para o componente pai
 };
 </script>
