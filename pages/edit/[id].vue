@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import userForm from "~/components/userForm.vue";
-import { useUserStore } from "~/stores/userStore";
+import { useUserStore } from "../../stores/userStore";
 import { useRouter, useRoute } from "vue-router";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/vue/24/outline";
 
