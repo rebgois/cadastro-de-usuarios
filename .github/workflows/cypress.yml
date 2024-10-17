@@ -26,4 +26,7 @@ jobs:
         CI: true
 
     - name: Run Cypress Tests
-      run: npx cypress run
+      run: npx cypress run --spec "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}"
+      
+     
+
