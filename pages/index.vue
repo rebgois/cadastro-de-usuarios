@@ -1,3 +1,4 @@
+// index.vue
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 to-blue-500 p-6">
     <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
@@ -22,16 +23,18 @@
 </template>
 
 <script setup lang="ts">
-import userForm from '~/components/userForm.vue'; // Importa o formulário
-import { useUserStore } from '~/stores/userStore'; // Importa a store
-import { useRouter } from 'vue-router'; // Importa o roteador
+import userForm from '~/components/userForm.vue'; // Importa o formulário de usuário
+import { useUserStore } from '~/stores/userStore'; // Importa a store Pinia
+import { useRouter } from 'vue-router'; // Roteador para redirecionamento
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'; // Ícone de seta
 
-const userStore = useUserStore();
-const router = useRouter();
+const userStore = useUserStore(); // Inicializa a store
+const router = useRouter(); // Inicializa o roteador
 
+// Função chamada ao submeter o formulário
 const handleSubmit = (user) => {
-  userStore.addUser(user); // Adiciona o usuário na store
+  console.log('Usuário recebido no handleSubmit:', user); // Verifica se o evento chegou aqui
+  userStore.addUser(user); // Adiciona o usuário
   router.push('/users'); // Redireciona para a lista de usuários
 };
 </script>

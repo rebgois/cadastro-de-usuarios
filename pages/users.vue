@@ -1,13 +1,11 @@
 <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 to-blue-500 p-4"
-  >
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 to-blue-500 p-4">
     <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl sm:max-w-4xl">
       <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-600 text-center mb-6">
         Usuários Cadastrados
       </h1>
 
-      <!-- Botão de Voltar ao Cadastro: Antes dos usuários no Mobile -->
+      <!-- Botão de Voltar ao Cadastro: Visível apenas no Mobile -->
       <div class="flex justify-center mb-6 sm:hidden">
         <NuxtLink
           to="/"
@@ -17,7 +15,7 @@
         </NuxtLink>
       </div>
 
-      <!-- Exibe Tabela no Desktop e Cards no Mobile -->
+      <!-- Exibição de Tabela no Desktop e Cards no Mobile -->
       <div>
         <!-- Tabela: Somente em telas médias ou maiores -->
         <div class="hidden sm:block overflow-y-auto max-h-96 rounded-lg">
@@ -87,7 +85,7 @@
         </div>
       </div>
 
-      <!-- Botão de Voltar ao Cadastro no Desktop (depois da tabela) -->
+      <!-- Botão de Voltar ao Cadastro (Desktop) -->
       <div class="hidden sm:flex justify-center mt-6">
         <NuxtLink
           to="/"
@@ -101,10 +99,10 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '~/stores/userStore'; // Store de usuários
-import { ArrowLeftIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'; // Ícones
+import { useUserStore } from '~/stores/userStore'; // Importa a store de usuários
+import { ArrowLeftIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'; // Ícones para navegação e ações
 
-const userStore = useUserStore(); // Inicializa a store
+const userStore = useUserStore(); // Inicializa a store de usuários
 
 // Função para deletar um usuário
 const deleteUser = (id: string) => {
