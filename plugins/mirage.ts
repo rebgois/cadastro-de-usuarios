@@ -1,3 +1,4 @@
+//mirage.ts
 import { createServer, Model } from 'miragejs'; // Importa o MirageJS para simular uma API
 
 // Verifica se o código está sendo executado no navegador

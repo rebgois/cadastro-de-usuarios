@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, onMounted } from 'vue';
 
-// Interface que define a estrutura de um usuário
+// Interface que define a estrutura do usuário
 interface User {
   id: string;
   name: string;
@@ -9,54 +9,60 @@ interface User {
   password: string;
 }
 
-// Cria a store de usuários usando Pinia
-export const useUserStore = defineStore('userStore', () => {
-  const users = ref<User[]>([]); // Estado reativo para armazenar usuários
+// Função para verificar se o ambiente é o navegador
+const isBrowser = typeof window !== 'undefined';
 
-  // Função para buscar usuários do localStorage
-  const fetchUsers = () => {
+// Função para carregar usuários do localStorage
+const loadUsersFromStorage = (): User[] => {
+  if (isBrowser) {
     const storedUsers = localStorage.getItem('users');
-    users.value = storedUsers ? JSON.parse(storedUsers) : [];
+    return storedUsers ? JSON.parse(storedUsers) : [];
+  }
+  return [];
+};
+
+// Função para salvar usuários no localStorage
+const saveUsersToStorage = (users: User[]) => {
+  if (isBrowser) {
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+};
+
+// Store de usuários
+export const useUserStore = defineStore('userStore', () => {
+  const users = ref<User[]>([]); // Estado para armazenar usuários
+
+  // Carrega usuários do localStorage na montagem do componente
+  const fetchUsers = () => {
+    users.value = loadUsersFromStorage();
   };
 
-  // Função para adicionar um novo usuário
+  // Adiciona um novo usuário
   const addUser = (user: User) => {
     user.id = Date.now().toString(); // Gera um ID único
     users.value.push(user); // Adiciona o usuário à lista
-    saveUsers(); // Salva no localStorage
+    saveUsersToStorage(users.value); // Salva no localStorage
   };
 
-  // Função para atualizar um usuário existente
+  // Atualiza um usuário existente
   const updateUser = (id: string, updatedUser: User) => {
     const index = users.value.findIndex((u) => u.id === id);
     if (index !== -1) {
-      users.value[index] = { ...updatedUser, id }; // Mantém o ID original
-      saveUsers(); // Atualiza o localStorage
+      users.value[index] = { ...updatedUser, id };
+      saveUsersToStorage(users.value); // Atualiza o localStorage
     }
   };
 
-  // Função para deletar um usuário pelo ID
+  // Deleta um usuário pelo ID
   const deleteUser = (id: string) => {
-    users.value = users.value.filter((user) => user.id !== id); // Remove o usuário
-    saveUsers(); // Atualiza o localStorage
+    users.value = users.value.filter((user) => user.id !== id);
+    saveUsersToStorage(users.value); // Atualiza o localStorage
   };
 
-  // Função para salvar a lista de usuários no localStorage
-  const saveUsers = () => {
-    localStorage.setItem('users', JSON.stringify(users.value));
-  };
+  // Garante que a função `fetchUsers` seja chamada apenas no cliente
+  if (isBrowser) {
+    onMounted(fetchUsers);
+  }
 
-  // Carrega os usuários ao inicializar a store
-  onMounted(() => {
-    if (typeof window !== 'undefined') {
-      fetchUsers();
-    }
-  });
-
-  return {
-    users,
-    addUser,
-    updateUser,
-    deleteUser,
-  };
+  return { users, addUser, updateUser, deleteUser };
 });
