@@ -5,7 +5,7 @@
   "scripts": {
     "test:e2e": "cypress open",
     "cypress:open": "cypress open",
-  "cypress:run": "cypress run",
+    "cypress:run": "cypress run",
     "test:unit": "vitest",
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -27,6 +27,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@cypress/webpack-batteries-included-preprocessor": "^3.0.5",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.5",
     "@testing-library/vue": "^8.1.0",
@@ -36,6 +37,7 @@
     "jsdom": "^25.0.1",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3",
     "vitest": "^2.1.3"
   }
 }
