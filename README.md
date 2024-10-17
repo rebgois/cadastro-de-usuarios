@@ -1,3 +1,6 @@
+## Deploy na Vercel
+A aplicação está disponível em: [Link do Deploy](https://vercel.live/link/cadastro-de-usuarios-one.vercel.app?via=project-dashboard-alias-list&p=1)
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
