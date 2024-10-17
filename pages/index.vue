@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import userForm from "~/components/userForm.vue"; // Importa o formulário
-import { useUserStore } from "@/stores/userStore";
+import { useUserStore } from "../stores/userStore";
 import { useRouter } from "vue-router"; // Importa o roteador
 import { ArrowRightIcon } from "@heroicons/vue/24/outline"; // Ícone de seta
 
