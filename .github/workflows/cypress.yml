@@ -17,6 +17,9 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+    - name: Install TypeScript
+      run: npm install typescript --save-dev
+
     - name: Start Local Server
       run: npm run dev &
       env:
