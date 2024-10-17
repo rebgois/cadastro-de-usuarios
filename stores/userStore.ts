@@ -1,75 +1,62 @@
-// useUserStore.ts
+import { defineStore } from 'pinia';
+import { ref, onMounted } from 'vue';
 
-import { defineStore } from "pinia"; // Importa a função defineStore do Pinia para criar a store
-import { ref } from "vue"; // Importa ref do Vue para criar referências reativas
-
-// Define a interface User que representa a estrutura de um usuário
+// Interface que define a estrutura de um usuário
 interface User {
-  id?: string; // ID opcional do usuário
+  id: string;
   name: string;
   email: string;
   password: string;
 }
 
-// Exporta a store 'useUserStore' usando o Pinia
-export const useUserStore = defineStore("userStore", () => {
-  // Cria um estado 'users' que é um array de usuários
-  const users = ref<User[]>([]);
+// Cria a store de usuários usando Pinia
+export const useUserStore = defineStore('userStore', () => {
+  const users = ref<User[]>([]); // Estado reativo para armazenar usuários
 
-  // Função assíncrona para buscar os usuários da API
-  const fetchUsers = async () => {
-    // Faz uma requisição GET para '/api/users' usando fetch
-    const response = await fetch("/api/users");
-    // Converte a resposta em JSON
-    const data = await response.json();
-    // Atualiza o estado 'users' com os dados recebidos
-    users.value = data.users;
+  // Função para buscar usuários do localStorage
+  const fetchUsers = () => {
+    const storedUsers = localStorage.getItem('users');
+    users.value = storedUsers ? JSON.parse(storedUsers) : [];
   };
 
-  // Função assíncrona para adicionar um novo usuário
-  const addUser = async (user: User) => {
-    // Faz uma requisição POST para '/api/users' com o usuário no corpo da requisição
-    const response = await fetch("/api/users", {
-      method: "POST",
-      body: JSON.stringify(user), // Converte o objeto 'user' em uma string JSON
-    });
-    // Converte a resposta em JSON
-    const data = await response.json();
-    // Adiciona o novo usuário ao array 'users'
-    users.value.push(data.user);
+  // Função para adicionar um novo usuário
+  const addUser = (user: User) => {
+    user.id = Date.now().toString(); // Gera um ID único
+    users.value.push(user); // Adiciona o usuário à lista
+    saveUsers(); // Salva no localStorage
   };
 
-  // Função assíncrona para atualizar um usuário existente
-  const updateUser = async (id: string, user: User) => {
-    // Faz uma requisição PUT para '/api/users/{id}' com os dados atualizados
-    await fetch(`/api/users/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(user), // Converte o objeto 'user' em uma string JSON
-    });
-    // Encontra o índice do usuário a ser atualizado no array 'users'
+  // Função para atualizar um usuário existente
+  const updateUser = (id: string, updatedUser: User) => {
     const index = users.value.findIndex((u) => u.id === id);
-    // Se o usuário for encontrado, atualiza seus dados
     if (index !== -1) {
-      users.value[index] = { id, ...user }; // Atualiza mantendo o ID original
+      users.value[index] = { ...updatedUser, id }; // Mantém o ID original
+      saveUsers(); // Atualiza o localStorage
     }
   };
 
-  // Função assíncrona para deletar um usuário
-  const deleteUser = async (id: string) => {
-    // Faz uma requisição DELETE para '/api/users/{id}'
-    await fetch(`/api/users/${id}`, {
-      method: "DELETE",
-    });
-    // Remove o usuário do array 'users' filtrando pelo ID
-    users.value = users.value.filter((user) => user.id !== id);
+  // Função para deletar um usuário pelo ID
+  const deleteUser = (id: string) => {
+    users.value = users.value.filter((user) => user.id !== id); // Remove o usuário
+    saveUsers(); // Atualiza o localStorage
   };
 
-  // Retorna o estado e as funções para serem usadas em outros componentes
+  // Função para salvar a lista de usuários no localStorage
+  const saveUsers = () => {
+    localStorage.setItem('users', JSON.stringify(users.value));
+  };
+
+  // Carrega os usuários ao inicializar a store
+  onMounted(() => {
+    if (typeof window !== 'undefined') {
+      fetchUsers();
+    }
+  });
+
   return {
-    users, // Estado que contém a lista de usuários
-    fetchUsers, // Função para buscar usuários
-    addUser, // Função para adicionar um novo usuário
-    updateUser, // Função para atualizar um usuário existente
-    deleteUser, // Função para deletar um usuário
+    users,
+    addUser,
+    updateUser,
+    deleteUser,
   };
 });
