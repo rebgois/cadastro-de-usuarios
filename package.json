@@ -13,8 +13,10 @@
     "miragejs": "^0.2.0-alpha.3",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.4",
+    "vee-validate": "^4.13.2",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
