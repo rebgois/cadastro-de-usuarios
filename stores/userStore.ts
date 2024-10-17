@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
-import { ref, onMounted } from 'vue';
+import { defineStore } from "pinia";
+import { ref, onMounted } from "vue";
 
 // Interface que define a estrutura do usuário
 interface User {
@@ -10,12 +10,12 @@ interface User {
 }
 
 // Função para verificar se o ambiente é o navegador
-const isBrowser = typeof window !== 'undefined';
+const isBrowser = typeof window !== "undefined";
 
 // Função para carregar usuários do localStorage
 const loadUsersFromStorage = (): User[] => {
   if (isBrowser) {
-    const storedUsers = localStorage.getItem('users');
+    const storedUsers = localStorage.getItem("users");
     return storedUsers ? JSON.parse(storedUsers) : [];
   }
   return [];
@@ -24,12 +24,12 @@ const loadUsersFromStorage = (): User[] => {
 // Função para salvar usuários no localStorage
 const saveUsersToStorage = (users: User[]) => {
   if (isBrowser) {
-    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem("users", JSON.stringify(users));
   }
 };
 
 // Store de usuários
-export const useUserStore = defineStore('userStore', () => {
+export const useUserStore = defineStore("userStore", () => {
   const users = ref<User[]>([]); // Estado para armazenar usuários
 
   // Carrega usuários do localStorage na montagem do componente
