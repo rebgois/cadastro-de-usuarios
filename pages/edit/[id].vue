@@ -17,7 +17,7 @@
 
         <NuxtLink
           to="/users"
-          class="flex items-center bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded shadow-md"
+          class="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow-md"
         >
           Ver Usuários <ArrowRightIcon class="w-5 h-5 ml-2" />
         </NuxtLink>
