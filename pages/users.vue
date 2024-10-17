@@ -5,9 +5,9 @@
     <div class="flex justify-between w-full max-w-4xl mb-4">
       <NuxtLink
         to="/"
-        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow-md transition-all"
+        class="flex items-center bg-gray-500 hover:bg-gray-600 text-white font-semibold px-6 py-2 rounded shadow-md transition-all"
       >
-        Voltar ao Cadastro
+        <ArrowLeftIcon class="w-5 h-5 mr-2" /> Voltar ao Cadastro
       </NuxtLink>
     </div>
 
@@ -31,15 +31,16 @@
             <td class="p-4 flex gap-2">
               <NuxtLink
                 :to="`/edit/${user.id}`"
-                class="text-blue-500 hover:text-blue-600 font-semibold"
+                class="flex items-center text-blue-500 hover:text-blue-600 font-semibold"
               >
-                Editar
+                <PencilIcon class="w-5 h-5 mr-1" /> Editar
               </NuxtLink>
+
               <button
                 @click="deleteUser(user.id)"
-                class="text-red-500 hover:text-red-600 font-semibold"
+                class="flex items-center text-red-500 hover:text-red-600 font-semibold"
               >
-                Deletar
+                <TrashIcon class="w-5 h-5 mr-1" /> Deletar
               </button>
             </td>
           </tr>
@@ -51,12 +52,11 @@
 
 <script setup lang="ts">
 import { useUserStore } from '~/stores/userStore'; // Importa a store de usuários
+import { ArrowLeftIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'; // Ícones de navegação e ações
 
-const userStore = useUserStore(); // Instancia a store
+const userStore = useUserStore();
 
-// Função para deletar um usuário
 const deleteUser = (id: string) => {
-  console.log(`Deletando usuário com ID: ${id}`); // Log para depuração
-  userStore.deleteUser(id); // Chama a função deleteUser da store
+  userStore.deleteUser(id); // Remove o usuário
 };
 </script>
