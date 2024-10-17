@@ -96,15 +96,6 @@ git checkout -b feature/nome-da-feature
 Realize commits claros e descritivos.
 Abra um Pull Request explicando suas alterações.
 
-## Checklist do Projeto
- CRUD completo de usuários (Cadastro, Listagem, Edição e Exclusão).
- Uso de Pinia para estado global.
- MirageJS para API mock.
- Estilização com Tailwind CSS.
- Validação de formulários com VeeValidate.
- Testes unitários e E2E com Vitest e Cypress.
- Deploy contínuo na Vercel.
-
 ## Links de Documentação
 
 - [Documentação Nuxt 3](https://nuxt.com/docs/getting-started/introduction)
